@@ -1,27 +1,41 @@
-import castor
-import castor/decodex
+import gleam/bit_array
+import gleam/http
+import gleam/http/request
+import gleam/http/response
+import gleam/httpc
 import gleam/io
 import gleam/json
-import gleam/string
 import oas
+import oas/generator
 import simplifile
+import snag
 import taffy
+
+fn json_file_path() {
+  "priv/openadr3.json"
+}
 
 pub fn main() {
   let assert Ok(yamlstring) = read_yaml()
   case taffy.parse(yamlstring) {
     Ok(yamlvalue) -> {
       let assert Ok(yamlvalue) = taffy.validate_unique_keys(yamlvalue)
-      // simplifile.write("priv/openadr3.json", taffy.to_json_string(yamlvalue))
-      let result = json.parse(taffy.to_json_string(yamlvalue), castor.decoder())
-      // let result = json.parse(taffy.to_json_string(yamlvalue), oas.decoder())
+      let yamljson = taffy.to_json_string(yamlvalue)
+      let assert Ok(Nil) = simplifile.write("priv/openadr3.json", yamljson)
+      // let result = json.parse(taffy.to_json_string(yamlvalue), castor.decoder())
+      let result = json.parse(yamljson, oas.decoder())
       case result {
-        Ok(_schema) -> {
-          io.println("Manage to decode with castor.decoder()")
-        }
-        // Ok(oas.Document(paths: paths, components: components, ..)) -> {
-        //   io.println("Manage to decode with oas.decoder()")
+        // Ok(_schema) -> {
+        //   io.println("Manage to decode with castor.decoder()")
         // }
+        Ok(oas.Document(paths: _paths, components: _components, ..)) -> {
+          // echo components
+          io.println("Manage to decode with oas.decoder()")
+          case generator.build(json_file_path(), ".", "oadr3", []) {
+            Ok(_) -> Nil
+            Error(reason) -> io.print(snag.pretty_print(reason))
+          }
+        }
         Error(e) -> {
           echo e
           Nil
@@ -34,12 +48,6 @@ pub fn main() {
     }
   }
 }
-
-import gleam/bit_array
-import gleam/http
-import gleam/http/request
-import gleam/http/response
-import gleam/httpc
 
 fn read_yaml() {
   let filename = "priv/openadr3.yaml"

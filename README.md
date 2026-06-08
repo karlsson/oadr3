@@ -18,9 +18,9 @@ pub fn main() -> Nil {
 Further documentation can be found at <https://hexdocs.pm/oadr3>.
 -->
 ## What this is
-An attempt to parse the [OpenADR 3 API](https://github.com/grid-coordination/openadr3-specification/blob/main/3.1.0/openadr3.yaml) spec using the [OAS](https://oas.hexdocs.pm/) decoder.
+An attempt to parse the [OpenADR 3 API](https://github.com/grid-coordination/openadr3-specification/blob/main/3.1.0/openadr3.yaml) spec. to Gleam using the [OAS](https://oas.hexdocs.pm/) decoder.
 ## Development
 
 ```sh
-gleam run -m oadr3/gen_oadr3 # Generate oas spec.
+gleam run -m gen_oadr3 # Generate oas spec.
 ```

@@ -4,9 +4,9 @@ version = "1.0.0"
 # Fill out these fields if you intend to generate HTML documentation or publish
 # your project to the Hex package manager.
 #
-# description = ""
+# description = "OpenADR 3 schema and client operations in Gleam"
 # licences = ["Apache-2.0"]
-# repository = { type = "github", user = "", repo = "" }
+# repository = { type = "github", user = "karlsson", repo = "oadr3" }
 # links = [{ title = "Website", href = "" }]
 #
 # For a full reference of all the available options, you can have a look at
@@ -15,12 +15,19 @@ version = "1.0.0"
 [dependencies]
 gleam_stdlib = ">= 1.0.0 and < 2.0.0"
 gleam_json = ">= 3.1.0 and < 4.0.0"
-castor = ">= 2.1.0 and < 3.0.0"
 gleam_http = ">= 4.3.0 and < 5.0.0"
-gleam_httpc = ">= 5.0.0 and < 6.0.0"
+snag = ">= 1.2.0 and < 2.0.0"
+oas_generator_utils = ">= 1.1.0 and < 2.0.0"
+midas = ">= 2.0.0 and < 3.0.0"
+# castor = ">= 2.1.0 and < 3.0.0"
+# At the moment you will need to git clone:
+# https://github.com/karlsson/oas_generator.git and use:
+# oas_generator_utils = {path = "../oas_generator/utils"}
 
 [dev_dependencies]
 gleeunit = ">= 1.0.0 and < 2.0.0"
-taffy = ">= 1.1.1 and < 2.0.0"
 simplifile = ">= 2.4.0 and < 3.0.0"
+taffy = ">= 1.1.1 and < 2.0.0"
 oas = ">= 8.0.1 and < 9.0.0"
+oas_generator = ">= 2.3.1 and < 3.0.0"
+gleam_httpc = ">= 5.0.0 and < 6.0.0"

@@ -62,7 +62,7 @@ pub type ProgramRequest {
     attributes: Option(List(ValuesMap)),
     interval_period: Option(IntervalPeriod),
     payload_descriptors: Option(List(utils.Any)),
-    program_descriptions: Option(List(String)),
+    program_descriptions: Option(List(Anon25ddbf1f)),
     program_name: String,
     targets: Option(List(Target)),
   )
@@ -248,6 +248,10 @@ pub type ClientCredentialResponse {
   )
 }
 
+pub type Anon25ddbf1f {
+  Anon25ddbf1f(url: String)
+}
+
 pub type Anon818bb683 {
   Anon818bb683(
     interval_period: Option(IntervalPeriod),
@@ -385,6 +389,15 @@ pub fn anon_818bb683_encode(data: Anon818bb683) {
     #("intervals", json.array(_, interval_encode)(data.intervals)),
     #("resourceName", resource_name_encode(data.resource_name)),
   ])
+}
+
+pub fn anon_25ddbf1f_decoder() {
+  use url <- decode.field("URL", decode.string)
+  decode.success(Anon25ddbf1f(url: url))
+}
+
+pub fn anon_25ddbf1f_encode(data: Anon25ddbf1f) {
+  utils.object([#("URL", json.string(data.url))])
 }
 
 pub fn program_decoder() {
@@ -1245,7 +1258,7 @@ pub fn program_request_decoder() {
   use program_descriptions <- decode.optional_field(
     "programDescriptions",
     None,
-    decode.optional(decode.list(decode.string)),
+    decode.optional(decode.list(anon_25ddbf1f_decoder())),
   )
   use program_name <- decode.field("programName", decode.string)
   use targets <- decode.optional_field(
@@ -1279,7 +1292,10 @@ pub fn program_request_encode(data: ProgramRequest) {
     ),
     #(
       "programDescriptions",
-      json.nullable(data.program_descriptions, json.array(_, json.string)),
+      json.nullable(data.program_descriptions, json.array(
+        _,
+        anon_25ddbf1f_encode,
+      )),
     ),
     #("programName", json.string(data.program_name)),
     #("targets", json.nullable(data.targets, json.array(_, target_encode))),

@@ -1740,15 +1740,20 @@ components:
           type: array
           description: A list of programDescriptions
           items:
-            type: string
-            format: uri
-            minLength: 2  # see https://www.rfc-editor.org/rfc/rfc3986#appendix-A
-            maxLength: 8000
-            # see https://www.rfc-editor.org/rfc/rfc7230#section-3.1.1
-            # see https://www.rfc-editor.org/rfc/rfc9110#section-4.1-5
-            # see also: https://stackoverflow.com/a/417184/6571327
-            description: A human or machine readable program description
-            example: https://www.myCorporation.com/myProgramDescription
+            type: object
+            required:
+              - URL
+            properties:
+              URL:
+                type: string
+                format: uri
+                minLength: 2  # see https://www.rfc-editor.org/rfc/rfc3986#appendix-A
+                maxLength: 8000
+                # see https://www.rfc-editor.org/rfc/rfc7230#section-3.1.1
+                # see https://www.rfc-editor.org/rfc/rfc9110#section-4.1-5
+                # see also: https://stackoverflow.com/a/417184/6571327
+                description: A human or machine readable program description
+                example: https://www.myCorporation.com/myProgramDescription
           nullable: true
           default: null
         payloadDescriptors:

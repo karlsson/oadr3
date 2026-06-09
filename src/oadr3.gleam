@@ -1,18 +1,28 @@
 import gleam/http/request
+import gleam/option.{None, Some}
 import gleam/string
 import midas/task as t
 import oadr3/operations
 import oas/generator/utils
 import snag
 
-/// Skolverkets server hosting their open API services.
+pub fn main() {
+  echo search_all_programs(
+    option.None,
+    targets: None,
+    skip: None,
+    limit: Some(10),
+  )
+}
+
+/// Switchmarket developer server.
 pub fn api_host() -> String {
-  "api.skolverket.se"
+  "qa-vtn3.switchmarket.se"
 }
 
 pub fn handle_errors(response) {
   case response {
-    Ok(response1) -> Ok(response1)
+    Ok(response) -> Ok(response)
     Error(reason) ->
       snag.new(string.inspect(reason))
       |> snag.layer("failed to decode")
@@ -24,7 +34,7 @@ pub fn handle_errors(response) {
 fn base_request(_token) {
   request.new()
   |> request.set_host(api_host())
-  |> utils.append_path("/skolenhetsregistret")
+  |> utils.append_path("/api/openadr/v1")
   |> request.prepend_header("accept", "application/json")
   |> request.set_body(<<>>)
 }

@@ -1,23 +1,42 @@
+import gleam/http
 import gleam/http/request
 import gleam/option.{None, Some}
 import gleam/string
+import midas/effect as e
 import midas/task as t
 import oadr3/operations
+import oadr3/runner
 import oas/generator/utils
 import snag
 
 pub fn main() {
-  echo search_all_programs(
-    option.None,
-    targets: None,
-    skip: None,
-    limit: Some(10),
-  )
+  let assert e.Done(Ok(Ok(programs))) =
+    runner.run(search_all_programs(
+      option.None,
+      targets: None,
+      skip: None,
+      limit: Some(10),
+    ))
+  let assert [program1, ..] = programs
+  let #(object_meta_data, program_request) = program1
+  echo program_request.payload_descriptors
+  echo program_request.program_name
+  echo object_meta_data.id
+  let assert e.Done(Ok(Ok(events))) =
+    runner.run(search_all_events(
+      option.None,
+      Some(object_meta_data.id),
+      None,
+      None,
+      Some(1),
+      None,
+    ))
+  echo events
 }
 
-/// Switchmarket developer server.
+// https://github.com/grid-coordination/price-server-user-guide
 pub fn api_host() -> String {
-  "qa-vtn3.switchmarket.se"
+  "price.grid-coordination.energy"
 }
 
 pub fn handle_errors(response) {
@@ -34,7 +53,8 @@ pub fn handle_errors(response) {
 fn base_request(_token) {
   request.new()
   |> request.set_host(api_host())
-  |> utils.append_path("/api/openadr/v1")
+  |> request.set_scheme(http.Https)
+  |> utils.append_path("/openadr3/3.1.0")
   |> request.prepend_header("accept", "application/json")
   |> request.set_body(<<>>)
 }

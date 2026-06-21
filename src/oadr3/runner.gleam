@@ -16,7 +16,7 @@ pub fn handle_errors(response) {
   }
 }
 
-/// Will return t.Done upon success
+/// Will return e.Done upon success
 pub fn run(effect: e.Effect(a, b)) -> e.Effect(a, b) {
   case effect {
     e.Fetch(request, resume) ->

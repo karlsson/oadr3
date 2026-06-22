@@ -61,7 +61,7 @@ fn base_request(_token: a) -> request.Request(BitArray) {
 ```
 
 ## Development
-The `gen_oadr3.gleam` module is located in the `dev` directory.
+The `gen_oadr3.gleam` module is located in the `dev` directory when cloned from the github repository.
 
 To generate new oas schema and operations from `openadr3.yaml` specification:
 ```sh

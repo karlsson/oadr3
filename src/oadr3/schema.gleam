@@ -1,9 +1,7 @@
-import gleam/dict
-import gleam/dynamic
 import gleam/dynamic/decode
 import gleam/json
 import gleam/option.{type Option, None}
-import oas/generator/utils
+import oadr3/utils
 
 pub type VenResourceRequest {
   VenResourceRequest(

@@ -1,15 +1,13 @@
 import gleam/bool
-import gleam/dict
 import gleam/dynamic/decode
-import gleam/float
 import gleam/http
 import gleam/http/response
 import gleam/int
 import gleam/json
-import gleam/option.{type Option, None}
+import gleam/option
 import gleam/result
 import oadr3/schema
-import oas/generator/utils
+import oadr3/utils
 
 pub fn delete_ven_request(base, ven_id) {
   let method = http.Delete
